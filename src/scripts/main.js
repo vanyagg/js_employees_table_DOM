@@ -275,44 +275,41 @@ sendBtn.addEventListener('click', (evnt) => {
   form.reset();
 });
 
-tbody.addEventListener('dblclick', (evnt) => {
-  const cell = evnt.target.closest('td');
-
-  if (!cell) {
-    return;
-  }
+tbody.addEventListener('dblclick', (evnts) => {
+  const cell = evnts.target.closest('td');
+  if (!cell) return;
 
   const existingInput = tbody.querySelector('.cell-input');
+
   if (existingInput) {
-    const prevValue = existingInput.value.trim();
-    const parent = existingInput.parentElement;
-    if (prevValue !== '') {
-      parent.textContent = prevValue;
-    } else {
-      parent.textContent = existingInput.defaultValue;
-    }
+    const valueToSave = existingInput.value.trim();
+    const parentCell = existingInput.parentElement;
+    parentCell.textContent = valueToSave === '' ? existingInput.defaultValue : valueToSave;
   }
 
-  const originalText = cell.textContent;
-  const cellInput = document.createElement('input');
-  cellInput.classList.add('cell-input');
-  cellInput.value = originalText;
-  cellInput.defaultValue = originalText;
+  if (!cell.querySelector('input')) {
+    const originalText = cell.textContent;
+    const cellInput = document.createElement('input');
 
-  cell.textContent = '';
-  cell.append(cellInput);
-  cellInput.focus();
+    cellInput.classList.add('cell-input');
+    cellInput.value = originalText;
+    cellInput.defaultValue = originalText;
 
-  cellInput.addEventListener('blur', () => {
-    const val = cellInput.value.trim();
-    cellInput.parentElement.textContent = val === '' ? cellInput.defaultValue : val;
-  });
+    cell.textContent = '';
+    cell.append(cellInput);
+    cellInput.focus();
 
-  cellInput.addEventListener('keydown', (evnt) => {
-    if (evnt.key === 'Enter') {
-      evnt.preventDefault();
+    cellInput.addEventListener('blur', () => {
       const val = cellInput.value.trim();
       cellInput.parentElement.textContent = val === '' ? cellInput.defaultValue : val;
-    }
-  });
+    });
+
+    cellInput.addEventListener('keydown', (evnt) => {
+      if (evnt.key === 'Enter') {
+        evnt.preventDefault();
+        const val = cellInput.value.trim();
+        cellInput.parentElement.textContent = val === '' ? cellInput.defaultValue : val;
+      }
+    });
+  }
 });
