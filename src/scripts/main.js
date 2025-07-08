@@ -1,5 +1,3 @@
-'use strict';
-
 const titles = [...document.querySelector('thead').firstElementChild.children];
 const tbody = document.querySelector('tbody');
 
@@ -153,85 +151,87 @@ sendBtn.addEventListener('click', (evnt) => {
     inputPos === '' ||
     inputAge === '' ||
     inputSal === '') {
-    const notification = document.createElement('div');
-    const title = document.createElement('h2');
-    const text = document.createElement('p');
+    const notificationAll = document.createElement('div');
+    const titleAll = document.createElement('h2');
+    const textAll = document.createElement('p');
 
-    title.classList.add('title');
-    title.textContent = 'Your form is not completed :)';
-    text.textContent = 'Please, fulfill all fields correctly';
+    titleAll.classList.add('title');
+    titleAll.textContent = 'Your form is not completed :)';
+    textAll.textContent = 'Please, fulfill all fields correctly';
 
-    notification.append(title, text);
-    notification.setAttribute('data-qa', 'notification');
-    notification.classList.add('notification', 'error');
+    notificationAll.append(titleAll, textAll);
+    notificationAll.setAttribute('data-qa', 'notification');
+    notificationAll.classList.add('notification', 'error');
 
     setTimeout(() => {
-    notification.remove();
+    notificationAll.remove();
     }, 2000);
-    body.append(notification);
+
+    body.append(notificationAll);
 
     return;
   }
 
-  if (inputName.length < 4) {
-    const notification = document.createElement('div');
-    const title = document.createElement('h2');
-    const text = document.createElement('p');
+   if (inputName.length < 4) {
+    const notificationName = document.createElement('div');
+    const titleName = document.createElement('h2');
+    const textName = document.createElement('p');
 
-    title.classList.add('title');
-    title.textContent = 'Your name is too short :)';
-    text.textContent = 'Please, enter more than 4 characters';
+    titleName.classList.add('title');
+    titleName.textContent = 'Your name is too short :)';
+    textName.textContent = 'Please, enter more than 4 characters';
 
-    notification.append(title, text);
-    notification.setAttribute('data-qa', 'notification');
-    notification.classList.add('notification', 'error');
+    notificationName.append(titleName, textName);
+    notificationName.setAttribute('data-qa', 'notification');
+    notificationName.classList.add('notification', 'error');
 
     setTimeout(() => {
-    notification.remove();
+    notificationName.remove();
     }, 2000);
-    body.append(notification);
+
+    body.append(notificationName);
 
     return;
   }
 
-  if (inputPos.length < 2) {
-    const notification = document.createElement('div');
-    const title = document.createElement('h2');
-    const text = document.createElement('p');
+  if (inputPos.length < 3) {
+    const notificationPos = document.createElement('div');
+    const titlePos = document.createElement('h2');
+    const textPos = document.createElement('p');
 
-    title.classList.add('title');
-    title.textContent = 'Your position is too short :)';
-    text.textContent = 'Please, enter more than 2 characters';
+    titlePos.classList.add('title');
+    titlePos.textContent = 'Your position is too short :)';
+    textPos.textContent = 'Please, enter more than 2 characters';
 
-    notification.append(title, text);
-    notification.setAttribute('data-qa', 'notification');
-    notification.classList.add('notification', 'error');
+    notificationPos.append(titlePos, textPos);
+    notificationPos.setAttribute('data-qa', 'notification');
+    notificationPos.classList.add('notification', 'error');
 
-    body.append(notification);
+    body.append(notificationPos);
     setTimeout(() => {
-      notification.remove();
+      notificationPos.remove();
     }, 2000);
 
     return;
   }
 
   if (+inputAge < 18 || +inputAge > 90) {
-    const notification = document.createElement('div');
-    const title = document.createElement('h2');
-    const text = document.createElement('p');
+    const notificationAge = document.createElement('div');
+    const titleAge = document.createElement('h2');
+    const textAge = document.createElement('p');
 
-    title.classList.add('title');
-    title.textContent = 'Your age is bad :)';
-    text.textContent = 'Please, enter age between 18 and 90';
+    titleAge.classList.add('title');
+    titleAge.textContent = 'Your age is bad :)';
+    textAge.textContent = 'Please, enter age between 18 and 90';
 
-    notification.append(title, text);
-    notification.setAttribute('data-qa', 'notification');
-    notification.classList.add('notification', 'error');
+    notificationAge.append(titleAge, textAge);
+    notificationAge.setAttribute('data-qa', 'notification');
+    notificationAge.classList.add('notification', 'error');
 
     setTimeout(() => {
-    notification.remove();
+    notificationAge.remove();
     }, 2000);
-    body.append(notification);
+    body.append(notificationAge);
 
     return;
   }
@@ -255,22 +255,22 @@ sendBtn.addEventListener('click', (evnt) => {
   tr.append(tdName, tdPosition, tdOffice, tdAge, tdSalary);
   tbody.append(tr);
 
-  const notification = document.createElement('div');
-  const title = document.createElement('h2');
-  const text = document.createElement('p');
+  const notificationSuccess = document.createElement('div');
+  const titleSuccess = document.createElement('h2');
+  const textSuccess = document.createElement('p');
 
-  title.classList.add('title');
-  title.textContent = 'New employee was added :)';
-  text.textContent = 'Now our company has one more great person';
+  titleSuccess.classList.add('title');
+  titleSuccess.textContent = 'New employee was added :)';
+  textSuccess.textContent = 'Now our company has one more great person';
 
-  notification.append(title, text);
-  notification.setAttribute('data-qa', 'notification');
-  notification.classList.add('notification', 'success');
+  notificationSuccess.append(titleSuccess, textSuccess);
+  notificationSuccess.setAttribute('data-qa', 'notification');
+  notificationSuccess.classList.add('notification', 'success');
 
   setTimeout(() => {
-  notification.remove();
+  notificationSuccess.remove();
   }, 2000);
-  body.append(notification);
+  body.append(notificationSuccess);
 
   form.reset();
 });
@@ -282,28 +282,37 @@ tbody.addEventListener('dblclick', (evnt) => {
     return;
   }
 
-  const val = tbody.querySelector('.cell-input');
-  const originalText = cell.textContent;
-
-  if (val) {
-    val.parentElement.textContent = val.value.trim() === '' ? originalText : val.value.trim();
+  const existingInput = tbody.querySelector('.cell-input');
+  if (existingInput) {
+    const prevValue = existingInput.value.trim();
+    const parent = existingInput.parentElement;
+    if (prevValue !== '') {
+      parent.textContent = prevValue;
+    } else {
+      parent.textContent = existingInput.defaultValue;
+    }
   }
 
+  const originalText = cell.textContent;
   const cellInput = document.createElement('input');
   cellInput.classList.add('cell-input');
   cellInput.value = originalText;
+  cellInput.defaultValue = originalText;
 
   cell.textContent = '';
   cell.append(cellInput);
   cellInput.focus();
 
   cellInput.addEventListener('blur', () => {
-    cellInput.parentElement.textContent = cellInput.value.trim() === '' ? originalText : cellInput.value.trim();
+    const val = cellInput.value.trim();
+    cellInput.parentElement.textContent = val === '' ? cellInput.defaultValue : val;
   });
 
   cellInput.addEventListener('keydown', (evnt) => {
     if (evnt.key === 'Enter') {
-      cellInput.parentElement.textContent = cellInput.value.trim() === '' ? originalText : cellInput.value.trim();
+      evnt.preventDefault();
+      const val = cellInput.value.trim();
+      cellInput.parentElement.textContent = val === '' ? cellInput.defaultValue : val;
     }
   });
 });
